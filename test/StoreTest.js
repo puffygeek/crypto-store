@@ -81,19 +81,20 @@ contract('Store', async function(accounts) {
     });
   });
 
-  contract('setPermission', async function(accounts) {
-    contract('reg', async function(accounts) {
-      let res;
-      const ns = 'QyPvnQubnpC7kcx86FN9';
-      before(async () => {
-        await instance.setPermission(ns, keys[0], vals[0]);
-      });
+  // TODO:
+  // contract('setPermission', async function(accounts) {
+  //   contract('reg', async function(accounts) {
+  //     let res;
+  //     const ns = 'QyPvnQubnpC7kcx86FN9';
+  //     before(async () => {
+  //       await instance.setPermission(ns, keys[0], vals[0]);
+  //     });
 
-      it('should have right static address', async function() {
-        console.log(accounts);
-      });
-    });
-  });
+  //     it('should have right static address', async function() {
+  //       console.log(accounts);
+  //     });
+  //   });
+  // });
 
 
 });
