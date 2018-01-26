@@ -37,3 +37,4 @@ build/
 
 yarn.lock
 yarn-error.log
+uploads/

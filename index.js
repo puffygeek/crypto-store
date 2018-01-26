@@ -1,26 +1,26 @@
 const fs = require('fs');
 const express = require('express');
 const app = express();
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/', limits: { fileSize: 1024 * 1024 * 15 } }); //15 MB limit
 
-const IPFS = require('ipfs');
-const ipfs = new IPFS();
+app.get('/', (req, res) => res.send('ok'));
 
-ipfs.on('ready', () => {
-  const strm = fs.createReadStream('/Users/sagivo/dev/side/crypto/blokk/tat.png');
-  ipfs.swarm.peers(function (err, peerInfos) {
-    console.log('???',peerInfos);
-  });
-  // ipfs.files.add(strm, (err, res) => {
-  //   ipfs.files.get(res[0].hash, (err, files) => {
-  //     fs.writeFile('/Users/sagivo/dev/side/crypto/blokk/o.png', files[0].content, (err, fin) => console.log('done'));
-  //   });
-  // });
-})
+app.post('/put', upload.single('file'), (req, res) => {
+  const { file } = req;
+  if (file) {
+    console.log(file);
+    // store to ipfs => get adrs
+    // store in smart contract key => adrs
+    // return the user with ok
+  }
+});
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.post('/set', (req, res) => {
+});
 
 app.get('/ipfs', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+module.exports = app.listen(3000, () => console.log('Example app listening on port 3000!'));
