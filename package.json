@@ -6,5 +6,8 @@
   "dependencies": {
     "express": "^4.16.2",
     "ipfs": "^0.27.7"
+  },
+  "devDependencies": {
+    "truffle": "^4.0.5"
   }
 }
