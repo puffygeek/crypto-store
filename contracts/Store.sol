@@ -1,15 +1,9 @@
 pragma solidity ^0.4.0;
 
-import './Ownable.sol';
+import './Permission.sol';
 
-contract Store is Ownable {
+contract Store is Permission {
     mapping(string => mapping(string => bytes32)) db;
-    mapping(string => address) permissions;
-
-    modifier onlyBy(string namespace) {
-        require(msg.sender == owner || permissions[namespace] == msg.sender );
-        _;
-    }
 
     function set(string namespace, string key, bytes32 val) public onlyBy(namespace) {
         db[namespace][key] = val;
@@ -19,7 +13,4 @@ contract Store is Ownable {
         return db[namespace][key];
     }
 
-    function setPermission(string namespace, address adrs) public onlyOwner {
-        permissions[namespace] = adrs;
-    }
 }
