@@ -59,6 +59,31 @@ describe('Server', async function(accounts) {
     });
   });
 
+
+  describe('get', async function(accounts) {
+    describe('all good params', async function(accounts) {
+      before(async () => {
+        res = await request(serverAdrs + '/get?key=QmW3J3czdUzxRaaN31Gtu5T1U5br3t631b8AHdvxHdsHWg', {json: true});
+      });
+
+      it('should return right hash', () => {
+        res.should.eq('bar'); //hash of bar
+      });
+    });
+
+    describe('bad params', async function(accounts) {
+      describe('no key', async function(accounts) {
+        before(async () => {
+          res = await request(serverAdrs + '/get?wrong=QmW3J3czdUzxRaaN31Gtu5T1U5br3t631b8AHdvxHdsHWg', {json: true});
+        });
+
+        it('should return right hash', () => {
+          res.should.have.key('error');
+        });
+      });
+    });
+  });
+
   after(async () => {
     await server.exit();
   });

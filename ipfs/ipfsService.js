@@ -45,7 +45,6 @@ const get = async (key) => {
   if (!ready) await init();
 
   const obj = (await ipfs.files.get(key))[0];
-  console.log(obj);
   if (obj.readable) return obj;
   return obj.content.toString('utf8');
 }

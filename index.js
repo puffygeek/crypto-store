@@ -26,9 +26,12 @@ app.post('/set', bodyParser.json(), async (req, res) => {
   res.send(r)
 });
 
-app.get('/ipfs', async (req, res) => {
-  const val = await ipfsService.put(req.body);
-  res.send('Hello World!');
+app.get('/get', async (req, res) => {
+  if (!req.query.key) {
+    return res.send({error: 'no key'});
+  }
+  const val = await ipfsService.get(req.query.key);
+  res.send(val);
 });
 
 const server = app.listen(3000, () => {
