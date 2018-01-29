@@ -1,29 +1,21 @@
 const fs = require('fs');
-const IPFS = require('ipfs');
-let ipfs;
-let ready;
 
-// ipfs.on('ready', () => {
-//   ready = true;
-//   const strm = fs.createReadStream('/Users/sagivo/dev/side/crypto/blokk/tat.png');
-//   ipfs.files.add(strm, (err, res) => {
-//     ipfs.files.get(res[0].hash, (err, files) => {
-//       fs.writeFile('/Users/sagivo/dev/side/crypto/blokk/o.png', files[0].content, (err, fin) => console.log('done'));
-//     });
-//   });
-// });
+const Storage = require('@google-cloud/storage');
+let googleStorage;
+const projectId = 'YOUR_PROJECT_ID';
+const bucketName = 'my-new-bucket';
 
 const init = async () => {
   if (ready) return true;
 
   return new Promise((resolve, reject) => {
-    ipfs = new IPFS();
-    ipfs.on('ready', () => {
-      ready = true;
+    googleStorage = new Storage({
+      projectId: projectId
+    }).then(res => {
       resolve();
     });
   });
-}
+};
 
 const convertToBuffer = (value) => {
   switch (typeof(value)) {
@@ -36,9 +28,7 @@ const convertToBuffer = (value) => {
 
 const put = async (value) => {
   if (!ready) await init();
-  value = convertToBuffer(value);
-  const files = await ipfs.files.add(value);
-  return files[0].hash;
+  await googleStorage.upload(value, {destination: destination});
 }
 
 const get = async (key) => {
