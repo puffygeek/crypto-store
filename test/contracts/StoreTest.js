@@ -1,6 +1,4 @@
 const Store = artifacts.require('./Store');
-const should = require('chai').should();
-const expect = require('chai').expect;
 
 contract('Store', async function(accounts) {
   let instance;
@@ -79,22 +77,59 @@ contract('Store', async function(accounts) {
         res.should.eq('0x0000000000000000000000000000000000000000000000000000000000000000');
       });
     });
+
+    contract('Set/Get with permission', async function (accounts) {
+      let res1, res2, res1_owner;
+      const ns = 'QyPvnQubnpC7kcx86FN9';
+      const keys = ['foo1', 'foo2'];
+      const vals = ['bar', 'bar2'];
+      before(async () => {
+        await instance.setPermission(ns, accounts[1]);
+        await instance.set(ns, keys[0], vals[0], {from: accounts[1]});
+        await instance.set(ns, keys[1], vals[1], {from: accounts[0]}); // the owner has always permissions
+        res1 = await instance.get.call(ns, keys[0], {from:accounts[1]});
+        res2 = await instance.get.call(ns, keys[1], {from:accounts[0]});
+        res1_owner = await instance.get.call(ns, keys[0], {from:accounts[0]});
+      });
+      it('should have right static address', async function() {
+        web3.toUtf8(res1).should.eq(vals[0]);
+        web3.toUtf8(res2).should.eq(vals[1]);
+        web3.toUtf8(res1_owner).should.eq(vals[0]);
+      });
+    });
+
+    contract('Set w/o permission', async function (accounts) {
+      const ns = 'QyPvnQubnpC7kcx86FN9';
+      const key = 'foo1';
+      const val = 'bar';
+      before(async () => {
+        await instance.setPermission(ns, accounts[1]);
+      });
+
+      it('should not have permission to call set', async function() {
+        try {
+          await instance.set(ns, key, val, {from: accounts[2]});
+        } catch (error) {
+          error.message.should.eq('VM Exception while processing transaction: revert');
+        }
+      });
+    });
+
+    contract('Get w/o permission', async function (accounts) {
+      const ns = 'QyPvnQubnpC7kcx86FN9';
+      const key = 'foo1';
+      const val = 'bar';
+      it('should not have permission to call set', async function() {
+        before(async () => {
+          await instance.setPermission(ns, accounts[1]);
+          await instance.set(ns, key, val, {from: accounts[1]});
+        });
+        try {
+          await instance.get(ns, key, {from: accounts[2]});
+        } catch (error) {
+          error.message.should.eq('VM Exception while processing transaction: revert');
+        }
+      });
+    })
   });
-
-  // TODO:
-  // contract('setPermission', async function(accounts) {
-  //   contract('reg', async function(accounts) {
-  //     let res;
-  //     const ns = 'QyPvnQubnpC7kcx86FN9';
-  //     before(async () => {
-  //       await instance.setPermission(ns, keys[0], vals[0]);
-  //     });
-
-  //     it('should have right static address', async function() {
-  //       console.log(accounts);
-  //     });
-  //   });
-  // });
-
-
 });
