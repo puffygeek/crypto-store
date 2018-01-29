@@ -81,20 +81,29 @@ contract('Store', async function(accounts) {
     });
   });
 
-  // TODO:
-  // contract('setPermission', async function(accounts) {
-  //   contract('reg', async function(accounts) {
-  //     let res;
-  //     const ns = 'QyPvnQubnpC7kcx86FN9';
-  //     before(async () => {
-  //       await instance.setPermission(ns, keys[0], vals[0]);
-  //     });
+  contract('setPermission', async function(accounts) {
 
-  //     it('should have right static address', async function() {
-  //       console.log(accounts);
-  //     });
-  //   });
-  // });
+      const ns = 'QyPvnQubnpC7kcx86FN9';
+      const key = 'foo1';
+      const val = 'bar';
+
+      before(async () => {
+          await instance.setPermission(ns, accounts[1]);
+      });
+
+      it ("Should work only if has permission", async () => {
+          await instance.set(ns, key, val, {from: accounts[1]});
+
+          try {
+              await instance.set(ns, key, val, {from: accounts[2]})
+          } catch (error) {
+              assert.isTrue(error.message === "VM Exception while processing transaction: revert");
+              console.log(error.message);
+          }
+
+      });
+
+  });
 
 
 });
