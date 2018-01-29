@@ -2,21 +2,21 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 const multer  = require('multer');
-// const upload = multer({ dest: 'uploads/', limits: { fileSize: 1024 * 1024 * 15 } }); //15 MB limit
+const upload = multer({ dest: 'uploads/', limits: { fileSize: 1024 * 1024 * 15 } }); //15 MB limit
 const bodyParser = require('body-parser');
 const ipfsService = require('./ipfs/ipfsService');
 
 app.get('/', (req, res) => res.end('ok'));
 
-// app.post('/put', upload.single('file'), (req, res) => {
-//   const { file } = req;
-//   if (file) {
-//     console.log(file);
-//     // store to ipfs => get adrs
-//     // store in smart contract key => adrs
-//     // return the user with ok
-//   }
-// });
+app.post('/put', upload.single('file'), (req, res) => {
+  const { file } = req;
+  if (file) {
+    console.log(file);
+    // store to ipfs => get adrs
+    // store in smart contract key => adrs
+    // return the user with ok
+  }
+});
 
 app.post('/set', bodyParser.json(), async (req, res) => {
   if (!req.body.key || !req.body.value) {
