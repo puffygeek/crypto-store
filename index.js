@@ -6,7 +6,7 @@ const upload = multer({ dest: 'uploads/', limits: { fileSize: 1024 * 1024 * 15 }
 const bodyParser = require('body-parser');
 const ipfsService = require('./ipfs/ipfsService');
 
-app.get('/', (req, res) => res.end('ok'));
+app.get('/', (req, res) => res.send('ok'));
 
 app.post('/put', upload.single('file'), (req, res) => {
   const { file } = req;
