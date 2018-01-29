@@ -79,17 +79,22 @@ contract('Store', async function(accounts) {
     });
 
     contract('Set/Get with permission', async function (accounts) {
-      let res;
+      let res1, res2, res1_owner;
       const ns = 'QyPvnQubnpC7kcx86FN9';
-      const key = 'foo1';
-      const val = 'bar';
+      const keys = ['foo1', 'foo2'];
+      const vals = ['bar', 'bar2'];
       before(async () => {
         await instance.setPermission(ns, accounts[1]);
-        await instance.set(ns, key, val, {from: accounts[1]});
-        res = await instance.get.call(ns, key, {from:accounts[1]});
+        await instance.set(ns, keys[0], vals[0], {from: accounts[1]});
+        await instance.set(ns, keys[1], vals[1], {from: accounts[0]}); // the owner has always permissions
+        res1 = await instance.get.call(ns, keys[0], {from:accounts[1]});
+        res2 = await instance.get.call(ns, keys[1], {from:accounts[0]});
+        res1_owner = await instance.get.call(ns, keys[0], {from:accounts[0]});
       });
       it('should have right static address', async function() {
-        web3.toUtf8(res).should.eq(val);
+        web3.toUtf8(res1).should.eq(vals[0]);
+        web3.toUtf8(res2).should.eq(vals[1]);
+        web3.toUtf8(res1_owner).should.eq(vals[0]);
       });
     });
 
