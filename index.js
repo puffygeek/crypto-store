@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 1024 * 1024 * 15 } }); //15 MB limit
+const bodyParser = require('body-parser');
+const ipfsService = require('./ipfs/ipfsService');
 
 app.get('/', (req, res) => res.send('ok'));
 
@@ -16,11 +18,29 @@ app.post('/put', upload.single('file'), (req, res) => {
   }
 });
 
-app.post('/set', (req, res) => {
+app.post('/set', bodyParser.json(), async (req, res) => {
+  if (!req.body.key || !req.body.value) {
+    return res.send({error: 'no key or value params'});
+  }
+  const r = await ipfsService.put(req.body.value);
+  res.send(r)
 });
 
-app.get('/ipfs', (req, res) => {
-  res.send('Hello World!');
+app.get('/get', async (req, res) => {
+  if (!req.query.key) {
+    return res.send({error: 'no key'});
+  }
+  const val = await ipfsService.get(req.query.key);
+  res.send(val);
 });
 
-module.exports = app.listen(3000, () => console.log('Example app listening on port 3000!'));
+const server = app.listen(3000, () => {
+  console.log('Example app listening on port 3000!');
+});
+
+server.exit = async () => {
+  await ipfsService.stop();
+  await server.close();
+}
+
+module.exports = server;
