@@ -2,10 +2,10 @@ pragma solidity ^0.4.0;
 
 import './Ownable.sol';
 
-contract Permission is Ownable {
+contract Authorizable is Ownable {
     mapping(string => address) permissions;
 
-    modifier onlyBy(string namespace) {
+    modifier onlyIfHasPermission(string namespace) {
         require(msg.sender == owner || permissions[namespace] == msg.sender );
         _;
     }

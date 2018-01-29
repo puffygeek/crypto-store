@@ -1,6 +1,4 @@
 const Store = artifacts.require('./Store');
-const should = require('chai').should();
-const expect = require('chai').expect;
 
 contract('Store', async function(accounts) {
   let instance;
