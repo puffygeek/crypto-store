@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test-server": "node_modules/mocha/bin/mocha test/server",
-    "test-contract": "truffle test test/contracts",
+    "test-contract": "truffle test",
     "test": "npm run test-server && npm run test-contract"
   }
 }
