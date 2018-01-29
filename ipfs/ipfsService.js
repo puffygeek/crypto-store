@@ -13,7 +13,9 @@ let ready;
 //   });
 // });
 
-const init = () => {
+const init = async () => {
+  if (ready) return true;
+
   return new Promise((resolve, reject) => {
     ipfs = new IPFS();
     ipfs.on('ready', () => {
@@ -39,7 +41,9 @@ const put = async (value) => {
   return files[0].hash;
 }
 
-const get = async(key) => {
+const get = async (key) => {
+  if (!ready) await init();
+
   const obj = (await ipfs.files.get(key))[0];
   console.log(obj);
   if (obj.readable) return obj;
@@ -56,4 +60,12 @@ const test = async () => {
   // console.log(res);
 }
 
-test();
+const stop = () => {
+  // return new Promise((resolve) => {
+    ipfs.stop(process.exit);
+
+  // })
+}
+
+// test();
+module.exports = { put, get, stop }
