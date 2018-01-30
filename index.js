@@ -4,7 +4,13 @@ const app = express();
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 1024 * 1024 * 15 } }); //15 MB limit
 const bodyParser = require('body-parser');
-const ipfsService = require('./ipfs/ipfsService');
+const ipfsService = require('./library/ipfs/ipfsService');
+const googleStorageService = require('./library/google-storage/googleStorageService');
+
+const projectId = 'blokk-12345';
+const Storage = require('@google-cloud/storage');
+let googleStorage = new Storage({ projectId: projectId });
+let namespace = '12345'; // need to move namespace to a middleware, in firebase login
 
 app.get('/', (req, res) => res.send('ok'));
 
@@ -23,6 +29,8 @@ app.post('/set', bodyParser.json(), async (req, res) => {
     return res.send({error: 'no key or value params'});
   }
   const r = await ipfsService.put(req.body.value);
+  googleStorageService.put(googleStorage, namespace, req.body.key, req.body.value);
+
   res.send(r)
 });
 
