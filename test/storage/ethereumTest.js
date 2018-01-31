@@ -58,13 +58,9 @@ describe('Ethereum', async function(accounts) {
 
     describe('bad params', async function(accounts) {
       describe('different user', async function(accounts) {
-        before(async () => {
-          // res = ;
-        });
         it('should return right hash', async () => {
           try {
             const o = await ethereum.get('sagivo', 'foo', '0x627306090abab3a6e1400e9345bc60c78a8bef59');
-            console.log('???', o);
             throw('should not be here');
           } catch (err) {
             err.should.be.an.instanceof(Error)
