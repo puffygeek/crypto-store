@@ -20,9 +20,6 @@ describe('Ethereum', async function(accounts) {
 
     describe('bad params', async function(accounts) {
       describe('different user', async function(accounts) {
-        before(async () => {
-          // res = ;
-        });
         it('should return right hash', async () => {
           try {
             await ethereum.set('sagivo', 'foo', 'bar', '0x627306090abab3a6e1400e9345bc60c78a8bef52');
