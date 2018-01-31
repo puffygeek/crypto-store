@@ -4,16 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
-    "ipfs": "^0.27.7",
-    "multer": "^1.3.0",
-    "request-promise-native": "^1.0.5"
+    "body-parser": "*",
+    "express": "*",
+    "ipfs": "*",
+    "multer": "*",
+    "request-promise-native": "*",
+    "truffle-contract": "*",
+    "web3": "*"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^5.0.0",
-    "truffle": "^4.0.5"
+    "chai": "*",
+    "mocha": "*",
+    "truffle": "*"
   },
   "scripts": {
     "test-server": "node_modules/mocha/bin/mocha test/server",
