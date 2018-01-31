@@ -3,9 +3,8 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 const ethereum = require('../../storage/ethereum.js');
 
-describe('Ethereum', async function(accounts) {
+describe('Ethereum', async function() {
   let res;
-  console.log('accounts', accounts);
 
   describe('set', async function() {
     describe('all good params', async function() {
@@ -18,8 +17,8 @@ describe('Ethereum', async function(accounts) {
       });
     });
 
-    describe('bad params', async function(accounts) {
-      describe('different user', async function(accounts) {
+    describe('bad params', async function() {
+      describe('different user', async function() {
         it('should return right hash', async () => {
           try {
             await ethereum.set('sagivo', 'foo', 'bar', '0x627306090abab3a6e1400e9345bc60c78a8bef52');
@@ -30,7 +29,7 @@ describe('Ethereum', async function(accounts) {
         });
       });
 
-      describe('missing param', async function(accounts) {
+      describe('missing param', async function() {
         before(async () => {
           res = await ethereum.set('sagivo', 'foo');
         });
@@ -53,8 +52,8 @@ describe('Ethereum', async function(accounts) {
       });
     });
 
-    describe('bad params', async function(accounts) {
-      describe('different user', async function(accounts) {
+    describe('bad params', async function() {
+      describe('different user', async function() {
         it('should return right hash', async () => {
           try {
             const o = await ethereum.get('sagivo', 'foo', '0x627306090abab3a6e1400e9345bc60c78a8bef59');
@@ -65,7 +64,7 @@ describe('Ethereum', async function(accounts) {
         });
       });
 
-      describe('missing param', async function(accounts) {
+      describe('missing param', async function() {
         before(async () => {
           res = await ethereum.get('sagivo');
         });
