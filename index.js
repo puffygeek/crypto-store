@@ -5,7 +5,13 @@ const multer  = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 1024 * 1024 * 15 } }); //15 MB limit
 const bodyParser = require('body-parser');
 const ipfsService = require('./ipfs/ipfsService');
-const ethereumeStore = require('./storage/ethereum');
+const googleStorageService = require('./library/google-storage/googleStorageService');
+
+const projectId = 'blokk-12345'; // todo: this should come from an ENV variable
+let namespace = '12345'; // need to move namespace to a middleware, in firebase login
+
+const Storage = require('@google-cloud/storage');
+let googleStorage = new Storage({ projectId: projectId });
 
 app.get('/', (req, res) => res.send('ok'));
 
@@ -27,6 +33,7 @@ app.post('/set', bodyParser.json(), async (req, res) => {
   // ----
   const ipfsHash =  await ipfsService.put(req.body.value);
   const blockTx = await ethereumeStore.set(ns, req.body.key, ipfsHash);
+  googleStorageService.put(googleStorage, namespace, req.body.key, req.body.value);
   res.send({ ipfsHash, blockTx });
 });
 

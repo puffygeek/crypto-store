@@ -38,3 +38,8 @@ build/
 yarn.lock
 yarn-error.log
 uploads/
+
+# Adding this both in the local path and in the subpath in case someone post it by mistake
+# google-credentials is used by Firebase Storage and Firebase Firestore (DB)
+google-credentials.json
+**/google-credentials.json
