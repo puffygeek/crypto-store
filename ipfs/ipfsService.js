@@ -1,5 +1,5 @@
 const fs = require('fs');
-const IPFS = require('');
+const IPFS = require('ipfs');
 let ipfs;
 let ready;
 

@@ -4,7 +4,7 @@ const app = express();
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/', limits: { fileSize: 1024 * 1024 * 15 } }); //15 MB limit
 const bodyParser = require('body-parser');
-const ipfsService = require('./library/ipfs/ipfsService');
+const ipfsService = require('./ipfs/ipfsService');
 const googleStorageService = require('./library/google-storage/googleStorageService');
 
 const projectId = 'blokk-12345'; // todo: this should come from an ENV variable

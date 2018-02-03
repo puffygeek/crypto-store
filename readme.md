@@ -9,6 +9,13 @@ Install
 yarn install
 ```
 
+Run
+----
+Run the server
+```bash
+
+```
+
 Test
 ----
 First time you need to run truffle migrate, that will create the contract:
