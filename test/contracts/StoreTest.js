@@ -20,8 +20,8 @@ contract('Store', async function(accounts) {
       });
 
       it('should have right static address', async function() {
-        web3.toUtf8(res1).should.eq(vals[0]);
-        web3.toUtf8(res2).should.eq(vals[1]);
+        res1.should.eq(vals[0]);
+        res2.should.eq(vals[1]);
       });
     });
 
@@ -39,8 +39,8 @@ contract('Store', async function(accounts) {
       });
 
       it('should have right static address', async function() {
-        web3.toUtf8(res1).should.eq('override');
-        web3.toUtf8(res2).should.eq(vals[1]);
+        res1.should.eq('override');
+        res2.should.eq(vals[1]);
       });
     });
 
@@ -60,9 +60,9 @@ contract('Store', async function(accounts) {
       });
 
       it('should have right static address', async function() {
-        web3.toUtf8(res1).should.eq(vals[0]);
-        web3.toUtf8(res2).should.eq(vals[1]);
-        web3.toUtf8(res3).should.eq(vals[2]);
+        res1.should.eq(vals[0]);
+        res2.should.eq(vals[1]);
+        res3.should.eq(vals[2]);
       });
     });
 
@@ -74,7 +74,7 @@ contract('Store', async function(accounts) {
       });
 
       it('should return empty string', async function() {
-        res.should.eq('0x0000000000000000000000000000000000000000000000000000000000000000');
+        res.should.eq('');
       });
     });
 
@@ -92,9 +92,9 @@ contract('Store', async function(accounts) {
         res1_owner = await instance.get.call(ns, keys[0], {from:accounts[0]});
       });
       it('should have right static address', async function() {
-        web3.toUtf8(res1).should.eq(vals[0]);
-        web3.toUtf8(res2).should.eq(vals[1]);
-        web3.toUtf8(res1_owner).should.eq(vals[0]);
+        res1.should.eq(vals[0]);
+        res2.should.eq(vals[1]);
+        res1_owner.should.eq(vals[0]);
       });
     });
 

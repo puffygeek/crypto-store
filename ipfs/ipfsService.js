@@ -50,7 +50,7 @@ const get = async (key) => {
 }
 
 const stop = () => {
-  ipfs.stop();
+  if (ready) ipfs.stop();
 }
 
 module.exports = { put, get, stop }
