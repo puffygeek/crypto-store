@@ -6,9 +6,9 @@ const {bucketName} = googleStorageConf;
 const getFilePath = (namespace, key) => namespace + "/" + key;
 
 const put = async (googleStorage, namespace, key, value) => {
-  let filePath = getFilePath(namespace, key);
-  var tmp = require('tmp');
-  var tmpObj = tmp.fileSync();
+  const filePath = getFilePath(namespace, key);
+  const tmp = require('tmp');
+  const tmpObj = tmp.fileSync();
   fs.writeFile(tmpObj.name, value, (err) => {
     if (err) throw err;
     googleStorage
@@ -26,14 +26,12 @@ const put = async (googleStorage, namespace, key, value) => {
 
 const get = async (googleStorage, namespace, key) => {
   var myPromise = new Promise((resolve, reject) => {
-    let filePath = getFilePath(namespace, key);
-    var retContent;
-    var myBucket = googleStorage.bucket(bucketName);
-    var file = myBucket.file(filePath);
+    const filePath = getFilePath(namespace, key);
+    const myBucket = googleStorage.bucket(bucketName);
+    const file = myBucket.file(filePath);
     file.download(function (err, contents) {
       if (err) reject(err);
-      retContent = contents;
-      resolve();
+      resolve(contents);
     });
   });
   return myPromise;
