@@ -11,7 +11,7 @@ yarn install
 
 Run
 ----
-To run this project requires the Google Cloud credentials, create a google credentials P12 JSON file and export the file as follow:
+To run this project requires the Google Cloud credentials, create a google credentials JSON file and export the file as follow:
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS=${FOLDER_TO_GOOGLE_CREDENTIALS_JSON}
 ```

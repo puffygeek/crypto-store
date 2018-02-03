@@ -24,13 +24,13 @@ app.post('/set', bodyParser.json(), async (req, res) => {
     return res.send({error: 'no key or value params'});
   }
   // TODO: GET NS FROM DB HERE
-  const ns = 'sagivo';
+  const namespace = 'sagivo';
   // ----
   const ipfsHash =  await ipfsService.put(req.body.value);
-  const blockTx = await ethereumeStore.set(ns, req.body.key, ipfsHash);
+  const blockTx = await ethereumeStore.set(namespace, req.body.key, ipfsHash);
 
   // Google Storage
-  const {projectId} = require('configs/googleConf');
+  const {projectId} = require('./configs/googleConf');
   const Storage = require('@google-cloud/storage');
   let googleStorage = new Storage({ projectId });
   googleStorageService.put(googleStorage, namespace, req.body.key, req.body.value);
@@ -43,9 +43,9 @@ app.get('/get/:key', async (req, res) => {
     return res.send({error: 'no key'});
   }
   // TODO: GET NS FROM DB HERE
-  const ns = 'sagivo';
+  const namespace = 'sagivo';
   // ----
-  const ipfsHash = await ethereumeStore.get(ns, req.params.key);
+  const ipfsHash = await ethereumeStore.get(namespace, req.params.key);
   if (!ipfsHash.length) return res.json({error: 'no matching namespace/value'});
   const val = await ipfsService.get(ipfsHash);
   res.send(val);
