@@ -1,5 +1,7 @@
 const fs = require('fs');
-const bucketName = 'bucket-name-sxq3f';
+const googleStorageConf = require('../../config/googleStorageConf');
+const {bucketName} = googleStorageConf;
+
 
 const getFilePath = (namespace, key) => namespace + "/" + key;
 
