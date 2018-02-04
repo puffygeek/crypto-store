@@ -4,11 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@google-cloud/storage": "^1.5.2",
     "body-parser": "*",
     "express": "*",
     "ipfs": "*",
     "multer": "*",
     "request-promise-native": "*",
+    "tmp": "^0.0.33",
     "truffle-contract": "*",
     "web3": "*"
   },
