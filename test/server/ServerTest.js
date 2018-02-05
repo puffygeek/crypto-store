@@ -18,7 +18,7 @@ describe('Server', async function() {
     });
   });
 
-  describe.only('put', async function() {
+  describe('put', async function() {
     describe('all good params', async function() {
       before(async () => {
         res = await request.post({
