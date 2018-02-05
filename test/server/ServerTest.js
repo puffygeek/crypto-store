@@ -3,11 +3,16 @@ const streamEqual = require('stream-equal');
 const request = require('request-promise-native');
 const should = require('chai').should();
 const expect = require('chai').expect;
-const server = require('../../index');
 const serverAdrs = 'http://localhost:3000';
+const Server = require('../../server');
+const server = new Server();
 
 describe('Server', async function() {
   let res;
+  before(async () => {
+    server.start();
+  });
+
   describe('ping', async function() {
     before(async () => {
       res = await request(serverAdrs);
