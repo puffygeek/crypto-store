@@ -3,16 +3,6 @@ const IPFS = require('ipfs');
 let ipfs;
 let ready;
 
-// ipfs.on('ready', () => {
-//   ready = true;
-//   const strm = fs.createReadStream('/Users/sagivo/dev/side/crypto/blokk/tat.png');
-//   ipfs.files.add(strm, (err, res) => {
-//     ipfs.files.get(res[0].hash, (err, files) => {
-//       fs.writeFile('/Users/sagivo/dev/side/crypto/blokk/o.png', files[0].content, (err, fin) => console.log('done'));
-//     });
-//   });
-// });
-
 const init = async () => {
   if (ready) return true;
 
@@ -34,7 +24,7 @@ const convertToBuffer = (value) => {
   }
 }
 
-const put = async (value) => {
+const set = async (value) => {
   if (!ready) await init();
   value = convertToBuffer(value);
   const files = await ipfs.files.add(value);
@@ -49,8 +39,19 @@ const get = async (key) => {
   return obj.content.toString('utf8');
 }
 
+const put = async (data) => {
+  if (!ready) await init();
+  const files = await ipfs.files.add(data);
+  return files[0].hash;
+}
+
+const pull = async (key) => {
+  if (!ready) await init();
+  return ipfs.files.catReadableStream(key);
+}
+
 const stop = () => {
   if (ready) ipfs.stop();
 }
 
-module.exports = { put, get, stop }
+module.exports = { put, pull, set, get, stop }
