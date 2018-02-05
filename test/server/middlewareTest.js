@@ -18,6 +18,7 @@ describe('Middleware', async function() {
   });
 
   describe('ping', async function() {
+    let res;
     before(async () => {
       res = await request(serverAdrs);
     });
