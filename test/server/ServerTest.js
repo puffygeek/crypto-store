@@ -24,7 +24,7 @@ describe('Server', async function() {
         res = await request.post({
           url: serverAdrs + '/put',
           formData: {
-            file: fs.createReadStream(__dirname + '/cat.jpg'), //new Buffer('hello'),
+            file: fs.createReadStream(__dirname + '/cat.jpg'),
             key: 'cat',
           },
           json: true,
