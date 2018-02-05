@@ -22,7 +22,8 @@ const upload = multer({
 });
 
 module.exports = class Server {
-  constructor(args) {
+  constructor(params = {}) {
+    if (params.middleware) app.use(params.middleware);
   }
 
   start() {
