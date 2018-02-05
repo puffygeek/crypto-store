@@ -27,7 +27,7 @@ describe('Middleware', async function() {
     });
 
     it('should call middleware', () => {
-      middleware.should.have.been.called;
+      middleware.should.have.been.calledOnce;
     });
   });
 
