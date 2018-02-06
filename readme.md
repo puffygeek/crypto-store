@@ -7,6 +7,8 @@ Install
 -------
 ```bash
 yarn install
+truffle develop
+truffle migrate
 ```
 
 Test

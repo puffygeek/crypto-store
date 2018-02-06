@@ -10,7 +10,7 @@ const server = new Server();
 describe('Server', async function() {
   let res;
   before(async () => {
-    server.start();
+    await server.start();
   });
 
   describe('ping', async function() {

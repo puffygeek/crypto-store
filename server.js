@@ -1,6 +1,5 @@
 const fs = require('fs');
 const express = require('express');
-const app = express();
 const multer  = require('multer');
 const bodyParser = require('body-parser');
 const ipfsService = require('./ipfs/ipfsService');
@@ -23,13 +22,18 @@ const upload = multer({
 
 module.exports = class Server {
   constructor(params = {}) {
-    if (params.middleware) app.use(params.middleware);
+    this.app = express()
+    if (params.middleware) {
+      this.app.use(params.middleware);
+    }
   }
 
-  start() {
-    app.get('/', (req, res) => res.send('ok'));
+  start(params = {}) {
+    const port = params.port || 3000;
 
-    app.post('/put', upload.single('file'), async (req, res) => {
+    this.app.get('/', (req, res) => res.send('ok'));
+
+    this.app.post('/put', upload.single('file'), async (req, res) => {
       const { file } = req;
       if (!file || !req.body.key) {
         if (file) fs.unlinkSync(file.path);
@@ -48,7 +52,7 @@ module.exports = class Server {
       }
     });
 
-    app.get('/pull/:key', async (req, res) => {
+    this.app.get('/pull/:key', async (req, res) => {
       if (!req.params.key) {
         return res.json({error: 'no key'});
       }
@@ -62,7 +66,7 @@ module.exports = class Server {
       fileStream.pipe(res);
     });
 
-    app.post('/set', bodyParser.json(), async (req, res) => {
+    this.app.post('/set', bodyParser.json(), async (req, res) => {
       if (!req.body.key || !req.body.value) {
         return res.json({error: 'no key or value params'});
       }
@@ -74,7 +78,7 @@ module.exports = class Server {
       res.json({ ipfsHash, blockTx });
     });
 
-    app.get('/get/:key', async (req, res) => {
+    this.app.get('/get/:key', async (req, res) => {
       if (!req.params.key) {
         return res.json({error: 'no key'});
       }
@@ -87,8 +91,8 @@ module.exports = class Server {
       res.send(val);
     });
 
-    this.server = app.listen(3000, () => {
-      console.log('Example app listening on port 3000!');
+    this.server = this.app.listen(port, () => {
+      console.log(`Example this.app listening on port ${ port }!`);
     });
   }
 
